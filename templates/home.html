@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="py-5" style="background: radial-gradient(circle at top right, #17223a, #050505 55%);">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+                <p class="text-info fw-bold mb-2">KUTAY TECH</p>
+
+                <h1 class="display-4 fw-bold">
+                    Build Your Future
+                </h1>
+
+                <p class="lead text-secondary mt-3">
+                    Gaming setup, çevre birimleri, PC bileşenleri ve KUTAY lifestyle ürünleriyle
+                    kendi teknoloji evrenini kur.
+                </p>
+
+                <div class="d-flex gap-3 mt-4">
+                    <a href="#" class="btn btn-info text-dark fw-bold px-4">
+                        Ürünleri Keşfet
+                    </a>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-light px-4">
+                        Üye Ol
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 text-center">
+                <img src="{% static 'img/logo/kutay-logo.png' %}"
+                     class="img-fluid"
+                     alt="KUTAY Logo"
+                     style="max-height: 360px; filter: drop-shadow(0 0 30px #00c8ff);">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <p class="text-info fw-bold mb-1">KATEGORİLER</p>
+            <h2 class="fw-bold">KUTAY Ekosistemi</h2>
+            <p class="text-secondary">
+                Markanın temel ürün alanları.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-3">
+                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
+                    <h5>Çevre Birimleri</h5>
+                    <p class="text-secondary mb-0">Klavye, mouse, mousepad ve masa ekipmanları.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
+                    <h5>PC Components</h5>
+                    <p class="text-secondary mb-0">Kasa, ekran kartı, anakart ve sistem parçaları.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
+                    <h5>Gaming Setup</h5>
+                    <p class="text-secondary mb-0">RGB masa, koltuk, setup ve oda ürünleri.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
+                    <h5>Merch / Lifestyle</h5>
+                    <p class="text-secondary mb-0">Hoodie, tişört, mug, sticker ve marka ürünleri.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background-color:#0b0b0b;">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <p class="text-info fw-bold mb-1">HERO ÜRÜNLER</p>
+            <h2 class="fw-bold">İlk Vitrin Ürünleri</h2>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-3">
+                <div class="card bg-black text-light border-secondary h-100">
+                    <div class="card-body">
+                        <h5>Hoodie</h5>
+                        <p class="text-secondary">KUTAY premium dark hoodie.</p>
+                        <span class="text-info">Yakında</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card bg-black text-light border-secondary h-100">
+                    <div class="card-body">
+                        <h5>Mousepad</h5>
+                        <p class="text-secondary">RGB setup uyumlu geniş yüzey.</p>
+                        <span class="text-info">Yakında</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card bg-black text-light border-secondary h-100">
+                    <div class="card-body">
+                        <h5>Keyboard</h5>
+                        <p class="text-secondary">KUTAY mekanik klavye serisi.</p>
+                        <span class="text-info">Yakında</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card bg-black text-light border-secondary h-100">
+                    <div class="card-body">
+                        <h5>Gaming Setup</h5>
+                        <p class="text-secondary">Masa, ışık ve setup estetiği.</p>
+                        <span class="text-info">Yakında</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

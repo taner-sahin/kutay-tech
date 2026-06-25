@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="py-5" style="min-height:80vh; background: radial-gradient(circle at top right, #132033, #050505 55%);">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+
+                <div class="p-4 rounded-4 border border-secondary" style="background-color:#0b0b0b;">
+                    <h2 class="text-center fw-bold mb-2">Üye Ol</h2>
+                    <p class="text-center text-secondary mb-4">KUTAY TECH hesabını oluştur.</p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <button type="submit" class="btn btn-info text-dark fw-bold w-100 mt-3">
+                            Üye Ol
+                        </button>
+                    </form>
+
+                    <p class="text-center mt-4 mb-0 text-secondary">
+                        Zaten hesabın var mı?
+                        <a href="{% url 'accounts:login' %}" class="text-info text-decoration-none">
+                            Giriş Yap
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
