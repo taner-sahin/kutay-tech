@@ -1,143 +1,238 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
-{% block content %}
+<!-- HERO ALANI BAŞLANGIÇ -->
+<section
+  class="py-5"
+  style="background: radial-gradient(circle at top right, #17223a, #0b0f14 55%)"
+>
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <p class="text-info fw-bold mb-2">KUTAY TECH</p>
 
-<section class="py-5" style="background: radial-gradient(circle at top right, #17223a, #050505 55%);">
-    <div class="container py-5">
-        <div class="row align-items-center g-5">
+        <h1 class="display-4 fw-bold">Build Your Future</h1>
 
-            <div class="col-lg-6">
-                <p class="text-info fw-bold mb-2">KUTAY TECH</p>
+        <p class="lead mt-3" style="color: #aab4c0">
+          Gaming setup, çevre birimleri, PC bileşenleri ve KUTAY lifestyle
+          ürünleriyle kendi teknoloji evrenini kur.
+        </p>
 
-                <h1 class="display-4 fw-bold">
-                    Build Your Future
-                </h1>
+        <div class="d-flex gap-3 mt-4">
+          <a href="#" class="btn btn-info text-dark fw-bold px-4">
+            Ürünleri Keşfet
+          </a>
 
-                <p class="lead text-secondary mt-3">
-                    Gaming setup, çevre birimleri, PC bileşenleri ve KUTAY lifestyle ürünleriyle
-                    kendi teknoloji evrenini kur.
-                </p>
-
-                <div class="d-flex gap-3 mt-4">
-                    <a href="#" class="btn btn-info text-dark fw-bold px-4">
-                        Ürünleri Keşfet
-                    </a>
-                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-light px-4">
-                        Üye Ol
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-lg-6 text-center">
-                <img src="{% static 'img/logo/kutay-logo.png' %}"
-                     class="img-fluid"
-                     alt="KUTAY Logo"
-                     style="max-height: 360px; filter: drop-shadow(0 0 30px #00c8ff);">
-            </div>
-
+          {% if user.is_authenticated %}
+          <a href="#" class="btn btn-outline-light px-4">
+            Merhaba, {{ user.username }}
+          </a>
+          {% else %}
+          <a
+            href="{% url 'accounts:register' %}"
+            class="btn btn-outline-light px-4"
+          >
+            Üye Ol
+          </a>
+          {% endif %}
         </div>
+      </div>
+
+      <div class="col-lg-6 text-center">
+        <img
+          src="{% static 'img/logo/kutay-logo.png' %}"
+          class="img-fluid"
+          alt="KUTAY Logo"
+          style="max-height: 360px; filter: drop-shadow(0 0 30px #00c8ff)"
+        />
+      </div>
     </div>
+  </div>
 </section>
+<!-- HERO ALANI BİTİŞ -->
 
-<section class="py-5">
-    <div class="container">
+<!-- KATEGORİLER ALANI BAŞLANGIÇ -->
+<section class="py-5" style="background-color: #0b0f14">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="text-info fw-bold mb-1">KATEGORİLER</p>
+      <h2 class="fw-bold">KUTAY Ekosistemi</h2>
+      <p style="color: #9ca3af">Markanın temel ürün alanları.</p>
+    </div>
 
-        <div class="text-center mb-5">
-            <p class="text-info fw-bold mb-1">KATEGORİLER</p>
-            <h2 class="fw-bold">KUTAY Ekosistemi</h2>
-            <p class="text-secondary">
-                Markanın temel ürün alanları.
+    <div class="row g-4">
+      <!-- Veritabanından gelen kategorileri tek tek döndürüyoruz -->
+      {% for category in nav_categories %}
+
+      <div class="col-md-3">
+        <!-- Kategori kartını komple tıklanabilir yaptık -->
+        <a
+          href="{% url 'products:category_detail' category.slug %}"
+          class="text-decoration-none text-light"
+        >
+          <div
+            class="p-4 h-100 rounded-4"
+            style="background-color: #111827; border: 1px solid #2f3b4a"
+          >
+            <h5>{{ category.name }}</h5>
+
+            <p class="mb-0" style="color: #9ca3af">
+              {{ category.description|default:"KUTAY TECH ürün kategorisi." }}
             </p>
-        </div>
+          </div>
+        </a>
+      </div>
 
-        <div class="row g-4">
+      {% empty %}
 
-            <div class="col-md-3">
-                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
-                    <h5>Çevre Birimleri</h5>
-                    <p class="text-secondary mb-0">Klavye, mouse, mousepad ve masa ekipmanları.</p>
-                </div>
-            </div>
+      <!-- Eğer veritabanında kategori yoksa bu mesaj görünür -->
+      <p class="text-center" style="color: #9ca3af">
+        Henüz kategori eklenmedi.
+      </p>
 
-            <div class="col-md-3">
-                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
-                    <h5>PC Components</h5>
-                    <p class="text-secondary mb-0">Kasa, ekran kartı, anakart ve sistem parçaları.</p>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
-                    <h5>Gaming Setup</h5>
-                    <p class="text-secondary mb-0">RGB masa, koltuk, setup ve oda ürünleri.</p>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="p-4 h-100 border border-secondary rounded-4" style="background-color:#111;">
-                    <h5>Merch / Lifestyle</h5>
-                    <p class="text-secondary mb-0">Hoodie, tişört, mug, sticker ve marka ürünleri.</p>
-                </div>
-            </div>
-
-        </div>
+      {% endfor %}
     </div>
+  </div>
 </section>
+<!-- KATEGORİLER ALANI BİTİŞ -->
 
-<section class="py-5" style="background-color:#0b0b0b;">
-    <div class="container">
-
-        <div class="text-center mb-5">
-            <p class="text-info fw-bold mb-1">HERO ÜRÜNLER</p>
-            <h2 class="fw-bold">İlk Vitrin Ürünleri</h2>
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-md-3">
-                <div class="card bg-black text-light border-secondary h-100">
-                    <div class="card-body">
-                        <h5>Hoodie</h5>
-                        <p class="text-secondary">KUTAY premium dark hoodie.</p>
-                        <span class="text-info">Yakında</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card bg-black text-light border-secondary h-100">
-                    <div class="card-body">
-                        <h5>Mousepad</h5>
-                        <p class="text-secondary">RGB setup uyumlu geniş yüzey.</p>
-                        <span class="text-info">Yakında</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card bg-black text-light border-secondary h-100">
-                    <div class="card-body">
-                        <h5>Keyboard</h5>
-                        <p class="text-secondary">KUTAY mekanik klavye serisi.</p>
-                        <span class="text-info">Yakında</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card bg-black text-light border-secondary h-100">
-                    <div class="card-body">
-                        <h5>Gaming Setup</h5>
-                        <p class="text-secondary">Masa, ışık ve setup estetiği.</p>
-                        <span class="text-info">Yakında</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+<!-- ÖNE ÇIKAN ÜRÜNLER ALANI BAŞLANGIÇ -->
+<section class="py-5" style="background-color: #101820">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="text-info fw-bold mb-1">HERO ÜRÜNLER</p>
+      <h2 class="fw-bold">Öne Çıkan Ürünler</h2>
+      <p style="color: #9ca3af">
+        Admin panelinden öne çıkarılan KUTAY ürünleri.
+      </p>
     </div>
+
+    <div class="row g-4">
+      <!-- views.py içinden gelen featured_products listesini döndürüyoruz -->
+      {% for product in featured_products %}
+      <div class="col-md-3">
+        <!-- Kartın tamamı ürün detay sayfasına gider -->
+        <a
+          href="{% url 'products:product_detail' product.slug %}"
+          class="text-decoration-none text-light"
+        >
+          <div
+            class="card h-100 text-light"
+            style="background-color: #111827; border: 1px solid #2f3b4a"
+          >
+            {% if product.image %}
+            <img
+              src="{{ product.image.url }}"
+              class="card-img-top"
+              alt="{{ product.name }}"
+              style="height: 220px; object-fit: cover"
+            />
+            {% else %}
+            <div
+              class="d-flex align-items-center justify-content-center"
+              style="height: 220px; background-color: #0b0f14"
+            >
+              <span style="color: #9ca3af"> Görsel yok </span>
+            </div>
+            {% endif %}
+
+            <div class="card-body">
+              <p class="text-info small mb-1">{{ product.category.name }}</p>
+
+              <h5 class="card-title">{{ product.name }}</h5>
+
+              <p class="card-text" style="color: #9ca3af">
+                {{ product.description|truncatewords:14 }}
+              </p>
+
+              <p class="fw-bold text-info mb-1">{{ product.price }} TL</p>
+
+              <p class="small mb-0" style="color: #9ca3af">
+                Stok: {{ product.stock }}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      {% empty %}
+
+      <!-- Eğer öne çıkan ürün yoksa bu mesaj görünür -->
+      <p class="text-center" style="color: #9ca3af">
+        Henüz öne çıkan ürün bulunmuyor.
+      </p>
+
+      {% endfor %}
+    </div>
+  </div>
 </section>
+<!-- ÖNE ÇIKAN ÜRÜNLER ALANI BİTİŞ -->
+
+<!-- YENİ ÜRÜNLER ALANI BAŞLANGIÇ -->
+<section class="py-5" style="background-color: #0b0f14">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="text-info fw-bold mb-1">YENİ ÜRÜNLER</p>
+      <h2 class="fw-bold">Son Eklenenler</h2>
+      <p style="color: #9ca3af">Admin panelinden en son eklenen ürünler.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- views.py içinden gelen new_products listesini döndürüyoruz -->
+      {% for product in new_products %}
+
+      <div class="col-md-3">
+        <!-- Kartın tamamı ürün detay sayfasına gider -->
+        <a
+          href="{% url 'products:product_detail' product.slug %}"
+          class="text-decoration-none text-light"
+        >
+          <div
+            class="card h-100 text-light"
+            style="background-color: #111827; border: 1px solid #2f3b4a"
+          >
+            {% if product.image %}
+            <img
+              src="{{ product.image.url }}"
+              class="card-img-top"
+              alt="{{ product.name }}"
+              style="height: 220px; object-fit: cover"
+            />
+            {% else %}
+            <div
+              class="d-flex align-items-center justify-content-center"
+              style="height: 220px; background-color: #0b0f14"
+            >
+              <span style="color: #9ca3af"> Görsel yok </span>
+            </div>
+            {% endif %}
+
+            <div class="card-body">
+              <p class="text-info small mb-1">{{ product.category.name }}</p>
+
+              <h5 class="card-title">{{ product.name }}</h5>
+
+              <p class="card-text" style="color: #9ca3af">
+                {{ product.description|truncatewords:12 }}
+              </p>
+
+              <p class="fw-bold text-info mb-1">{{ product.price }} TL</p>
+
+              <p class="small mb-0" style="color: #9ca3af">
+                Stok: {{ product.stock }}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% empty %}
+
+      <!-- Eğer ürün yoksa bu mesaj görünür -->
+      <p class="text-center" style="color: #9ca3af">Henüz ürün eklenmedi.</p>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- YENİ ÜRÜNLER ALANI BİTİŞ -->
 
 {% endblock %}

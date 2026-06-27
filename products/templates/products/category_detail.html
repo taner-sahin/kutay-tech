@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- KATEGORİ DETAY SAYFASI BAŞLANGIÇ -->
+<section class="py-5" style="background-color:#0b0f14;">
+  <div class="container">
+
+    <!-- SAYFA BAŞLIĞI -->
+    <div class="text-center mb-5">
+      <p class="text-info fw-bold mb-1">KATEGORİ</p>
+
+      <h1 class="fw-bold">
+        {{ category.name }}
+      </h1>
+
+      <p style="color:#9ca3af;">
+        {{ category.description|default:"Bu kategoriye ait ürünler listeleniyor." }}
+      </p>
+    </div>
+
+    <!-- ÜRÜN KARTLARI -->
+    <div class="row g-4">
+
+      {% for product in products %}
+
+        <div class="col-md-3">
+
+          <!-- Kartın tamamı tıklanabilir -->
+          <a
+            href="{% url 'products:product_detail' product.slug %}"
+            class="text-decoration-none text-light"
+          >
+
+            <div
+              class="card h-100 text-light"
+              style="background-color:#111827; border:1px solid #2f3b4a;"
+            >
+
+              <!-- Ürün görseli -->
+              {% if product.image %}
+                <img
+                  src="{{ product.image.url }}"
+                  class="card-img-top"
+                  alt="{{ product.name }}"
+                  style="height:220px; object-fit:cover;"
+                >
+              {% else %}
+                <div
+                  class="d-flex align-items-center justify-content-center"
+                  style="height:220px; background-color:#0b0f14;"
+                >
+                  <span style="color:#9ca3af;">
+                    Görsel yok
+                  </span>
+                </div>
+              {% endif %}
+
+              <!-- Ürün bilgileri -->
+              <div class="card-body">
+
+                <p class="text-info small mb-1">
+                  {{ product.category.name }}
+                </p>
+
+                <h5>
+                  {{ product.name }}
+                </h5>
+
+                <p style="color:#9ca3af;">
+                  {{ product.description|truncatewords:12 }}
+                </p>
+
+                <p class="fw-bold text-info mb-1">
+                  {{ product.price }} TL
+                </p>
+
+                <p class="small mb-0" style="color:#9ca3af;">
+                  Stok: {{ product.stock }}
+                </p>
+
+              </div>
+            </div>
+
+          </a>
+        </div>
+
+      {% empty %}
+
+        <p class="text-center" style="color:#9ca3af;">
+          Bu kategoride henüz ürün yok.
+        </p>
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
+<!-- KATEGORİ DETAY SAYFASI BİTİŞ -->
+
+{% endblock %}
