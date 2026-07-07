@@ -2,53 +2,34 @@
 
 {% block content %}
 
-<!-- ÜRÜN DETAY SAYFASI BAŞLANGIÇ -->
-<section class="py-5" style="background-color:#0b0f14;">
+<section class="py-5" style="background-color: #0b0f14">
   <div class="container">
-
     <div class="row g-5 align-items-start">
 
-      <!-- ÜRÜN GÖRSELİ -->
       <div class="col-lg-6">
         {% if product.image %}
-          <img
-            src="{{ product.image.url }}"
-            alt="{{ product.name }}"
-            class="img-fluid rounded-4"
-            style="border:1px solid #2f3b4a;"
-          >
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded-4" style="border: 1px solid #2f3b4a" />
         {% else %}
-          <div
-            class="d-flex align-items-center justify-content-center rounded-4"
-            style="height:400px; background-color:#111827; border:1px solid #2f3b4a;"
-          >
-            <span style="color:#9ca3af;">Görsel yok</span>
+          <div class="d-flex align-items-center justify-content-center rounded-4" style="height: 400px; background-color: #111827; border: 1px solid #2f3b4a;">
+            <span style="color: #9ca3af">Görsel yok</span>
           </div>
         {% endif %}
       </div>
 
-      <!-- ÜRÜN BİLGİLERİ -->
       <div class="col-lg-6">
+        <p class="text-info fw-bold mb-2">{{ product.category.name }}</p>
 
-        <p class="text-info fw-bold mb-2">
-          {{ product.category.name }}
-        </p>
+        <h1 class="fw-bold mb-3">{{ product.name }}</h1>
 
-        <h1 class="fw-bold mb-3">
-          {{ product.name }}
-        </h1>
-
-        <p style="color:#9ca3af; line-height:1.8;">
+        <p style="color: #9ca3af; line-height: 1.8">
           {{ product.description }}
         </p>
 
-        <hr style="border-color:#2f3b4a;">
+        <hr style="border-color: #2f3b4a" />
 
-        <h3 class="text-info fw-bold mb-3">
-          {{ product.price }} TL
-        </h3>
+        <h3 class="text-info fw-bold mb-3">{{ product.price }} TL</h3>
 
-        <p style="color:#9ca3af;">
+        <p style="color: #9ca3af">
           Stok Durumu:
           {% if product.stock > 0 %}
             <span class="text-success fw-bold">Stokta var</span>
@@ -57,27 +38,29 @@
           {% endif %}
         </p>
 
-        <p style="color:#9ca3af;">
-          Stok Adedi: {{ product.stock }}
-        </p>
+        <p style="color: #9ca3af">Stok Adedi: {{ product.stock }}</p>
 
-        <!-- Şimdilik butonlar görsel amaçlı, cart sistemi gelince çalışacak -->
         <div class="d-flex gap-3 mt-4">
+
           <a href="#" class="btn btn-info text-dark fw-bold px-4">
             Sepete Ekle
           </a>
 
-          <a href="#" class="btn btn-outline-light px-4">
-            Favorilere Ekle
-          </a>
-        </div>
+          {% if user.is_authenticated %}
+            <a href="{% url 'wishlist:add_to_wishlist' product.id %}" class="btn btn-outline-light px-4">
+              Favorilere Ekle
+            </a>
+          {% else %}
+            <a href="{% url 'accounts:login' %}" class="btn btn-outline-light px-4">
+              Favorilere Ekle
+            </a>
+          {% endif %}
 
+        </div>
       </div>
 
     </div>
-
   </div>
 </section>
-<!-- ÜRÜN DETAY SAYFASI BİTİŞ -->
 
 {% endblock %}

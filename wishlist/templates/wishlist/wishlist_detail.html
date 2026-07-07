@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Favorilerim</h2>
+
+    {% if wishlist_items %}
+
+        <div class="row">
+
+            {% for item in wishlist_items %}
+                <div class="col-md-3 mb-4">
+
+                    <div class="card h-100">
+
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">{{ item.product.price }} TL</p>
+
+                            <a href="{% url 'products:product_detail' item.product.slug %}" class="btn btn-dark btn-sm">
+                                Ürünü Gör
+                            </a>
+
+                            <a href="{% url 'wishlist:remove_from_wishlist' item.id %}" class="btn btn-outline-danger btn-sm">
+                                Favoriden Çıkar
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>Henüz favorilere ürün eklemedin.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
