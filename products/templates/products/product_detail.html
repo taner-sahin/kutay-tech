@@ -1,18 +1,27 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <section class="py-5" style="background-color: #0b0f14">
   <div class="container">
     <div class="row g-5 align-items-start">
-
       <div class="col-lg-6">
         {% if product.image %}
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded-4" style="border: 1px solid #2f3b4a" />
+        <img
+          src="{{ product.image.url }}"
+          alt="{{ product.name }}"
+          class="img-fluid rounded-4"
+          style="border: 1px solid #2f3b4a"
+        />
         {% else %}
-          <div class="d-flex align-items-center justify-content-center rounded-4" style="height: 400px; background-color: #111827; border: 1px solid #2f3b4a;">
-            <span style="color: #9ca3af">Görsel yok</span>
-          </div>
+        <div
+          class="d-flex align-items-center justify-content-center rounded-4"
+          style="
+            height: 400px;
+            background-color: #111827;
+            border: 1px solid #2f3b4a;
+          "
+        >
+          <span style="color: #9ca3af">Görsel yok</span>
+        </div>
         {% endif %}
       </div>
 
@@ -30,35 +39,47 @@
         <h3 class="text-info fw-bold mb-3">{{ product.price }} TL</h3>
 
         <p style="color: #9ca3af">
-          Stok Durumu:
-          {% if product.stock > 0 %}
-            <span class="text-success fw-bold">Stokta var</span>
+          Stok Durumu: {% if product.stock > 0 %}
+          <span class="text-success fw-bold">Stokta var</span>
           {% else %}
-            <span class="text-danger fw-bold">Stokta yok</span>
+          <span class="text-danger fw-bold">Stokta yok</span>
           {% endif %}
         </p>
 
         <p style="color: #9ca3af">Stok Adedi: {{ product.stock }}</p>
 
         <div class="d-flex gap-3 mt-4">
-
-          <a href="#" class="btn btn-info text-dark fw-bold px-4">
+          {% if user.is_authenticated %}
+          <a
+            href="{% url 'cart:add_to_cart' product.id %}"
+            class="btn btn-info text-dark fw-bold px-4"
+          >
             Sepete Ekle
           </a>
-
-          {% if user.is_authenticated %}
-            <a href="{% url 'wishlist:add_to_wishlist' product.id %}" class="btn btn-outline-light px-4">
-              Favorilere Ekle
-            </a>
           {% else %}
-            <a href="{% url 'accounts:login' %}" class="btn btn-outline-light px-4">
-              Favorilere Ekle
-            </a>
+          <a
+            href="{% url 'accounts:login' %}"
+            class="btn btn-info text-dark fw-bold px-4"
+          >
+            Sepete eklemek için giriş yap
+          </a>
+          {% endif %} {% if user.is_authenticated %}
+          <a
+            href="{% url 'wishlist:add_to_wishlist' product.id %}"
+            class="btn btn-outline-light px-4"
+          >
+            Favorilere Ekle
+          </a>
+          {% else %}
+          <a
+            href="{% url 'accounts:login' %}"
+            class="btn btn-outline-light px-4"
+          >
+            Favorilere Ekle
+          </a>
           {% endif %}
-
         </div>
       </div>
-
     </div>
   </div>
 </section>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="container py-5">
+
+  <h2 class="mb-4">Sepetim</h2>
+
+  {% if cart_items %}
+
+    {% for item in cart_items %}
+      <div class="card mb-3 p-3">
+
+        <h5>{{ item.product.name }}</h5>
+
+        <p>Birim Fiyat: {{ item.product.price }} TL</p>
+
+        <p>
+          Adet:
+          <a href="{% url 'cart:decrease_quantity' item.id %}" class="btn btn-sm btn-outline-dark">-</a>
+
+          <strong class="mx-2">{{ item.quantity }}</strong>
+
+          <a href="{% url 'cart:increase_quantity' item.id %}" class="btn btn-sm btn-outline-dark">+</a>
+        </p>
+
+        <p>Ara Toplam: {{ item.subtotal }} TL</p>
+
+        <a href="{% url 'cart:remove_from_cart' item.id %}" class="btn btn-sm btn-danger">
+          Sepetten Çıkar
+        </a>
+
+      </div>
+    {% endfor %}
+
+    <div class="card p-3 mt-4">
+      <h4>Toplam: {{ cart_total }} TL</h4>
+
+      <button class="btn btn-dark mt-2">
+        Alışverişi Tamamla
+      </button>
+    </div>
+
+  {% else %}
+
+    <p>Sepetin şu anda boş.</p>
+
+    <a href="{% url 'home' %}" class="btn btn-dark">
+      Alışverişe Devam Et
+    </a>
+
+  {% endif %}
+
+</section>
+
+{% endblock %}
