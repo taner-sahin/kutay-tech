@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container py-5 text-center">
+
+    <h2>Siparişiniz Alındı 🎉</h2>
+
+    <p>Teşekkür ederiz. Siparişiniz başarıyla oluşturuldu.</p>
+
+    <a href="{% url 'home' %}" class="btn btn-dark">
+        Alışverişe Devam Et
+    </a>
+
+</section>
+{% endblock %}

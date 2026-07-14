@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container py-5">
+  <h2>Siparişi Tamamla</h2>
+
+  <form method="post" class="card p-4 my-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button class="btn btn-dark">
+      Siparişi Onayla
+    </button>
+  </form>
+
+  <div class="card p-4">
+    <h4>Sipariş Özeti</h4>
+
+    {% for item in cart_items %}
+      <p>
+        {{ item.variant.product.name }} |
+        {{ item.variant.color|default:"-" }} /
+        {{ item.variant.size|default:"-" }} |
+        {{ item.quantity }} adet |
+        {{ item.subtotal }} TL
+      </p>
+    {% endfor %}
+
+    <strong>Toplam: {{ cart_total }} TL</strong>
+  </div>
+</section>
+{% endblock %}
