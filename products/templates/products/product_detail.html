@@ -1,84 +1,141 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
 
-<section class="py-5" style="background-color: #0b0f14">
+{% block content %}
+
+<section class="py-5" style="background-color: #0b0f14; min-height: 75vh;">
   <div class="container">
     <div class="row g-5 align-items-start">
+
+      <!-- ÜRÜN GÖRSELİ -->
       <div class="col-lg-6">
         {% if product.image %}
-        <img
-          src="{{ product.image.url }}"
-          alt="{{ product.name }}"
-          class="img-fluid rounded-4"
-          style="border: 1px solid #2f3b4a"
-        />
+          <img
+            src="{{ product.image.url }}"
+            alt="{{ product.name }}"
+            class="img-fluid rounded-4"
+            style="border: 1px solid #2f3b4a;"
+          >
         {% else %}
-        <div
-          class="d-flex align-items-center justify-content-center rounded-4"
-          style="
-            height: 400px;
-            background-color: #111827;
-            border: 1px solid #2f3b4a;
-          "
-        >
-          <span style="color: #9ca3af">Görsel yok</span>
-        </div>
+          <div class="p-5 text-center rounded-4" style="border: 1px solid #2f3b4a;">
+            Görsel yok
+          </div>
         {% endif %}
       </div>
 
+      <!-- ÜRÜN BİLGİLERİ -->
       <div class="col-lg-6">
-        <p class="text-info fw-bold mb-2">{{ product.category.name }}</p>
 
-        <h1 class="fw-bold mb-3">{{ product.name }}</h1>
+        <p class="text-info fw-bold mb-2">
+          {{ product.category.name }}
+        </p>
 
-        <p style="color: #9ca3af; line-height: 1.8">
+        <h1 class="fw-bold mb-3">
+          {{ product.name }}
+        </h1>
+
+        <p style="color: #9ca3af; line-height: 1.8;">
           {{ product.description }}
         </p>
 
-        <hr style="border-color: #2f3b4a" />
+        <hr style="border-color: #2f3b4a;">
 
-        <h3 class="text-info fw-bold mb-3">{{ product.price }} TL</h3>
+        <h3 class="text-info fw-bold mb-3">
+          {{ product.price }} TL
+        </h3>
 
-        <p style="color: #9ca3af">
-          Stok Durumu: {% if product.stock > 0 %}
-          <span class="text-success fw-bold">Stokta var</span>
+        <p style="color: #9ca3af;">
+          Stok Durumu:
+          {% if product.stock > 0 %}
+            <span class="text-success fw-bold">Stokta var</span>
           {% else %}
-          <span class="text-danger fw-bold">Stokta yok</span>
+            <span class="text-danger fw-bold">Stokta yok</span>
           {% endif %}
         </p>
 
-        <p style="color: #9ca3af">Stok Adedi: {{ product.stock }}</p>
+        <p style="color: #9ca3af;">
+          Stok Adedi: {{ product.stock }}
+        </p>
 
-        <div class="d-flex gap-3 mt-4">
+        <!-- VARYANT VE BUTONLAR -->
+        {% if variants %}
+
+          <form method="post" action="{% url 'cart:add_to_cart' %}">
+            {% csrf_token %}
+
+            <p class="fw-bold mt-4 mb-2">Varyant Seç:</p>
+
+            {% for variant in variants %}
+              <div class="form-check mb-2">
+
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="variant_id"
+                  id="variant_{{ variant.id }}"
+                  value="{{ variant.id }}"
+                  {% if variant.stock == 0 %}disabled{% endif %}
+                  required
+                >
+
+                <label
+                  class="form-check-label"
+                  for="variant_{{ variant.id }}"
+                >
+                  {{ variant.color|default:"Renk yok" }}
+                  /
+                  {{ variant.size|default:"Seçenek yok" }}
+                  — Stok: {{ variant.stock }}
+                </label>
+
+              </div>
+            {% endfor %}
+
+            <div class="d-flex gap-3 mt-4">
+
+              <button
+                type="submit"
+                class="btn btn-info text-dark fw-bold px-4"
+              >
+                Sepete Ekle
+              </button>
+
+              {% if user.is_authenticated %}
+                <a
+                  href="{% url 'wishlist:add_to_wishlist' product.id %}"
+                  class="btn btn-outline-light px-4"
+                >
+                  Favorilere Ekle
+                </a>
+              {% else %}
+                <a
+                  href="{% url 'accounts:login' %}"
+                  class="btn btn-outline-light px-4"
+                >
+                  Favorilere eklemek için giriş yap
+                </a>
+              {% endif %}
+
+            </div>
+
+          </form>
+
+        {% else %}
+
+          <p class="text-warning mt-4">
+            Bu ürün için aktif varyant bulunmuyor.
+          </p>
+
           {% if user.is_authenticated %}
-          <a
-            href="{% url 'cart:add_to_cart' product.id %}"
-            class="btn btn-info text-dark fw-bold px-4"
-          >
-            Sepete Ekle
-          </a>
-          {% else %}
-          <a
-            href="{% url 'accounts:login' %}"
-            class="btn btn-info text-dark fw-bold px-4"
-          >
-            Sepete eklemek için giriş yap
-          </a>
-          {% endif %} {% if user.is_authenticated %}
-          <a
-            href="{% url 'wishlist:add_to_wishlist' product.id %}"
-            class="btn btn-outline-light px-4"
-          >
-            Favorilere Ekle
-          </a>
-          {% else %}
-          <a
-            href="{% url 'accounts:login' %}"
-            class="btn btn-outline-light px-4"
-          >
-            Favorilere Ekle
-          </a>
+            <a
+              href="{% url 'wishlist:add_to_wishlist' product.id %}"
+              class="btn btn-outline-light mt-2"
+            >
+              Favorilere Ekle
+            </a>
           {% endif %}
-        </div>
+
+        {% endif %}
+
       </div>
     </div>
   </div>

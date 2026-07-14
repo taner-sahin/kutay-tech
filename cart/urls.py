@@ -16,7 +16,7 @@ urlpatterns = [
 
     # Sepete ürün ekle
     path(
-        "add/<int:product_id>/",
+        "add/",
         views.add_to_cart,
         name="add_to_cart",
     ),
