@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container py-5">
+  <h2>Yorumu Düzenle</h2>
+
+  <form method="post" class="card p-4 mt-3">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button class="btn btn-dark">
+      Güncelle
+    </button>
+  </form>
+</section>
+{% endblock %}
