@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container py-5">
+  <h2>Siparişlerim</h2>
+
+  {% for order in orders %}
+  <div class="card p-3 my-3">
+    <strong>Sipariş #{{ order.id }}</strong>
+    <p>Tarih: {{ order.created_at|date:"d.m.Y H:i" }}</p>
+    <p>Toplam: {{ order.total_price }} TL</p>
+    <p>Durum: {{ order.get_status_display }}</p>
+
+    <a
+      href="{% url 'orders:order_detail' order.id %}"
+      class="btn btn-sm btn-dark"
+    >
+      Detayı Gör
+    </a>
+  </div>
+{% empty %}
+  <p>Henüz siparişiniz bulunmuyor.</p>
+{% endfor %}
+</section>
+{% endblock %}

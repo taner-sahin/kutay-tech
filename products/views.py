@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from reviews.forms import ReviewForm
 from .models import Category, Product
 from django.db.models import Avg
-
+from django.db.models import Q
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
@@ -51,5 +51,29 @@ def product_detail(request, slug):
     return render(
         request,
         "products/product_detail.html",
+        context,
+    )
+    
+def search(request):
+    query = request.GET.get("q", "").strip()
+
+    products = Product.objects.filter(is_active=True)
+
+    if query:
+        products = products.filter(
+            Q(name__icontains=query)
+            | Q(description__icontains=query)
+        )
+    else:
+        products = Product.objects.none()
+
+    context = {
+        "query": query,
+        "products": products,
+    }
+
+    return render(
+        request,
+        "products/search_results.html",
         context,
     )

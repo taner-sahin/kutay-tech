@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container py-5">
+  <h2>Arama Sonuçları</h2>
+
+  {% if query %}
+    <p>"{{ query }}" için sonuçlar:</p>
+  {% endif %}
+
+  {% for product in products %}
+    <div class="card p-3 my-2">
+      <a href="{% url 'products:product_detail' product.slug %}">
+        {{ product.name }}
+      </a>
+      <p class="mb-0">{{ product.price }} TL</p>
+    </div>
+  {% empty %}
+    <p>Aradığınız ürüne uygun sonuç bulunamadı.</p>
+  {% endfor %}
+</section>
+{% endblock %}

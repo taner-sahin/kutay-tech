@@ -74,6 +74,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 
                 'products.context_processors.nav_categories',
+                'cart.context_processors.cart_count',
+                'wishlist.context_processors.wishlist_count',
+                'orders.context_processors.order_count',
             ],
         },
     },

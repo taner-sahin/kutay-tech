@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import redirect, render
-
+from django.shortcuts import get_object_or_404, redirect, render
+from .models import Order, OrderItem
 from cart.models import CartItem
 from .forms import OrderForm
-from .models import OrderItem
+
 
 
 @login_required
@@ -88,3 +89,47 @@ def success(request):
     """
 
     return render(request, "orders/success.html")
+
+@login_required
+def my_orders(request):
+    """
+    Giriş yapan kullanıcının kendi siparişlerini listeler.
+    """
+
+    orders = (
+        request.user.orders
+        .prefetch_related("items")
+        .all()
+    )
+
+    context = {
+        "orders": orders,
+    }
+
+    return render(
+        request,
+        "orders/my_orders.html",
+        context,
+    )
+    
+@login_required
+def order_detail(request, order_id):
+    """
+    Kullanıcının yalnızca kendi sipariş detayını görmesini sağlar.
+    """
+
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items"),
+        id=order_id,
+        user=request.user,
+    )
+
+    context = {
+        "order": order,
+    }
+
+    return render(
+        request,
+        "orders/order_detail.html",
+        context,
+    )

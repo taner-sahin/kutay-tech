@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container py-5">
+  <h2>Sipariş #{{ order.id }}</h2>
+
+  <p>Durum: {{ order.get_status_display }}</p>
+  <p>Tarih: {{ order.created_at|date:"d.m.Y H:i" }}</p>
+  <p>Toplam: {{ order.total_price }} TL</p>
+
+  {% for item in order.items.all %}
+    <div class="card p-3 my-2">
+      <strong>{{ item.product_name }}</strong>
+      <p>{{ item.color|default:"-" }} / {{ item.size|default:"-" }}</p>
+      <p>{{ item.quantity }} adet × {{ item.price }} TL</p>
+      <p>Ara Toplam: {{ item.subtotal }} TL</p>
+    </div>
+  {% endfor %}
+
+  <a href="{% url 'orders:my_orders' %}" class="btn btn-dark mt-3">
+    Siparişlerime Dön
+  </a>
+</section>
+{% endblock %}
