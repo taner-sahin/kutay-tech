@@ -1,24 +1,156 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <section class="container py-5">
-  <h2>Sipariş #{{ order.id }}</h2>
 
-  <p>Durum: {{ order.get_status_display }}</p>
-  <p>Tarih: {{ order.created_at|date:"d.m.Y H:i" }}</p>
-  <p>Toplam: {{ order.total_price }} TL</p>
+    <div class="mb-5">
 
-  {% for item in order.items.all %}
-    <div class="card p-3 my-2">
-      <strong>{{ item.product_name }}</strong>
-      <p>{{ item.color|default:"-" }} / {{ item.size|default:"-" }}</p>
-      <p>{{ item.quantity }} adet × {{ item.price }} TL</p>
-      <p>Ara Toplam: {{ item.subtotal }} TL</p>
+        <h2 class="fw-bold">
+            Sipariş #{{ order.id }}
+        </h2>
+
+        <p class="text-muted">
+            Sipariş detaylarınızı aşağıdan inceleyebilirsiniz.
+        </p>
+
     </div>
-  {% endfor %}
 
-  <a href="{% url 'orders:my_orders' %}" class="btn btn-dark mt-3">
-    Siparişlerime Dön
-  </a>
+    <div class="card shadow-sm border-0 mb-5">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <span class="text-muted">
+                        Sipariş Durumu
+                    </span>
+
+                    <br>
+
+                    <span class="badge bg-info text-dark px-3 py-2">
+                        {{ order.get_status_display }}
+                    </span>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <span class="text-muted">
+                        Sipariş Tarihi
+                    </span>
+
+                    <br>
+
+                    <strong>
+                        {{ order.created_at|date:"d.m.Y H:i" }}
+                    </strong>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <span class="text-muted">
+                        Toplam Tutar
+                    </span>
+
+                    <br>
+
+                    <strong class="text-info fs-5">
+                        {{ order.total_price }} TL
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <h4 class="fw-bold mb-4">
+        Sipariş İçeriği
+    </h4>
+
+    {% for item in order.items.all %}
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <h5 class="fw-bold mb-3">
+                {{ item.product_name }}
+            </h5>
+
+            <div class="mb-2">
+                <span class="text-muted">
+                    Renk:
+                </span>
+
+                <strong>
+                    {{ item.color|default:"-" }}
+                </strong>
+            </div>
+
+            <div class="mb-2">
+                <span class="text-muted">
+                    Seçenek:
+                </span>
+
+                <strong>
+                    {{ item.size|default:"-" }}
+                </strong>
+            </div>
+
+            <div class="mb-2">
+                <span class="text-muted">
+                    Adet:
+                </span>
+
+                <strong>
+                    {{ item.quantity }}
+                </strong>
+            </div>
+
+            <div class="mb-2">
+                <span class="text-muted">
+                    Birim Fiyat:
+                </span>
+
+                <strong>
+                    {{ item.price }} TL
+                </strong>
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <span class="fw-semibold">
+                    Ara Toplam
+                </span>
+
+                <strong class="text-info fs-5">
+                    {{ item.subtotal }} TL
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    <a href="{% url 'orders:my_orders' %}"
+       class="btn btn-secondary">
+
+        ← Siparişlerime Dön
+
+    </a>
+
 </section>
+
 {% endblock %}

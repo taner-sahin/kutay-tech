@@ -1,25 +1,80 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <section class="container py-5">
-  <h2>Siparişlerim</h2>
 
-  {% for order in orders %}
-  <div class="card p-3 my-3">
-    <strong>Sipariş #{{ order.id }}</strong>
-    <p>Tarih: {{ order.created_at|date:"d.m.Y H:i" }}</p>
-    <p>Toplam: {{ order.total_price }} TL</p>
-    <p>Durum: {{ order.get_status_display }}</p>
+    <div class="mb-5">
+        <h2 class="fw-bold">Siparişlerim</h2>
+        <p class="text-muted">
+            Geçmiş siparişlerinizi ve sipariş durumlarını buradan takip edebilirsiniz.
+        </p>
+    </div>
 
-    <a
-      href="{% url 'orders:order_detail' order.id %}"
-      class="btn btn-sm btn-dark"
-    >
-      Detayı Gör
-    </a>
-  </div>
-{% empty %}
-  <p>Henüz siparişiniz bulunmuyor.</p>
-{% endfor %}
+    {% for order in orders %}
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5 class="fw-bold mb-0">
+                    Sipariş #{{ order.id }}
+                </h5>
+
+                <span class="badge bg-info text-dark px-3 py-2">
+                    {{ order.get_status_display }}
+                </span>
+
+            </div>
+
+            <div class="mb-2">
+                <span class="text-muted">Sipariş Tarihi:</span>
+                <strong>{{ order.created_at|date:"d.m.Y H:i" }}</strong>
+            </div>
+
+            <div class="mb-4">
+                <span class="text-muted">Toplam Tutar:</span>
+                <strong class="text-info">
+                    {{ order.total_price }} TL
+                </strong>
+            </div>
+
+            <a href="{% url 'orders:order_detail' order.id %}"
+               class="btn btn-info text-dark fw-semibold">
+
+                Sipariş Detayı
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="text-center py-5">
+
+        <h3 class="fw-bold">
+            Henüz Siparişiniz Bulunmuyor
+        </h3>
+
+        <p class="text-muted mb-4">
+            İlk siparişinizi oluşturmak için alışverişe başlayabilirsiniz.
+        </p>
+
+        <a href="{% url 'home' %}"
+           class="btn btn-info text-dark fw-semibold">
+
+            Alışverişe Başla
+
+        </a>
+
+    </div>
+
+    {% endfor %}
+
 </section>
+
 {% endblock %}

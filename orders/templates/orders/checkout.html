@@ -1,32 +1,109 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <section class="container py-5">
-  <h2>Siparişi Tamamla</h2>
 
-  <form method="post" class="card p-4 my-4">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="mb-5">
+        <h2 class="fw-bold">Siparişi Tamamla</h2>
+        <p class="text-muted">
+            Teslimat bilgilerinizi girin ve siparişinizi güvenle tamamlayın.
+        </p>
+    </div>
 
-    <button class="btn btn-dark">
-      Siparişi Onayla
-    </button>
-  </form>
+    <div class="row g-4">
 
-  <div class="card p-4">
-    <h4>Sipariş Özeti</h4>
+        <div class="col-lg-7">
 
-    {% for item in cart_items %}
-      <p>
-        {{ item.variant.product.name }} |
-        {{ item.variant.color|default:"-" }} /
-        {{ item.variant.size|default:"-" }} |
-        {{ item.quantity }} adet |
-        {{ item.subtotal }} TL
-      </p>
-    {% endfor %}
+            <div class="card shadow-sm border-0">
 
-    <strong>Toplam: {{ cart_total }} TL</strong>
-  </div>
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-4">
+                        Teslimat Bilgileri
+                    </h4>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <button class="btn btn-info text-dark fw-semibold w-100 mt-3">
+                            Siparişi Onayla
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-5">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-4">
+                        Sipariş Özeti
+                    </h4>
+
+                    {% for item in cart_items %}
+
+                    <div class="border-bottom pb-3 mb-3">
+
+                        <h6 class="fw-bold">
+                            {{ item.variant.product.name }}
+                        </h6>
+
+                        <div class="small text-muted">
+                            Renk:
+                            <strong>{{ item.variant.color|default:"-" }}</strong>
+                        </div>
+
+                        <div class="small text-muted">
+                            Seçenek:
+                            <strong>{{ item.variant.size|default:"-" }}</strong>
+                        </div>
+
+                        <div class="small text-muted">
+                            Adet:
+                            <strong>{{ item.quantity }}</strong>
+                        </div>
+
+                        <div class="fw-semibold text-info mt-2">
+                            {{ item.subtotal }} TL
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h5 class="mb-0 fw-bold">
+                            Toplam
+                        </h5>
+
+                        <h5 class="mb-0 text-info fw-bold">
+                            {{ cart_total }} TL
+                        </h5>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
+
 {% endblock %}

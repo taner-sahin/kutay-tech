@@ -1,72 +1,129 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 
 <section class="container py-5">
-  <h2 class="mb-4">Sepetim</h2>
 
-  {% if cart_items %} {% for item in cart_items %}
-
-  <div class="card mb-3 p-3">
-    <h5>{{ item.variant.product.name }}</h5>
-
-    <p class="mb-1">
-      Renk:
-      <strong> {{ item.variant.color|default:"Renk yok" }} </strong>
-    </p>
-
-    <p class="mb-1">
-      Seçenek:
-      <strong> {{ item.variant.size|default:"Seçenek yok" }} </strong>
-    </p>
-
-    <p class="mb-1">Birim Fiyat: {{ item.variant.product.price }} TL</p>
-
-    <p class="mb-3">
-      Ara Toplam:
-      <strong>{{ item.subtotal }} TL</strong>
-    </p>
-
-    <div class="d-flex align-items-center gap-2 mb-3">
-      <form method="post" action="{% url 'cart:decrease_quantity' item.id %}">
-        {% csrf_token %}
-
-        <button type="submit" class="btn btn-sm btn-outline-dark">-</button>
-      </form>
-
-      <strong>{{ item.quantity }}</strong>
-
-      <form method="post" action="{% url 'cart:increase_quantity' item.id %}">
-        {% csrf_token %}
-
-        <button type="submit" class="btn btn-sm btn-outline-dark">+</button>
-      </form>
+    <div class="mb-5">
+        <h2 class="fw-bold">Sepetim</h2>
+        <p class="text-muted">
+            Sepetinizde bulunan ürünleri buradan yönetebilir ve siparişinizi tamamlayabilirsiniz.
+        </p>
     </div>
 
-    <form method="post" action="{% url 'cart:remove_from_cart' item.id %}">
-      {% csrf_token %}
+    {% if cart_items %}
 
-      <button type="submit" class="btn btn-sm btn-danger w-100">
-        Sepetten Çıkar
-      </button>
-    </form>
-  </div>
+        {% for item in cart_items %}
 
-  {% endfor %}
+        <div class="card shadow-sm border-0 mb-4">
 
-  <div class="card p-3 mt-4">
-    <h4>Toplam: {{ cart_total }} TL</h4>
+            <div class="card-body">
 
-    <a href="{% url 'orders:checkout' %}" class="btn btn-dark mt-2">
-      Alışverişi Tamamla
-    </a>
-  </div>
+                <h4 class="fw-bold mb-3">
+                    {{ item.variant.product.name }}
+                </h4>
 
-  {% else %}
+                <div class="mb-2">
+                    <span class="text-muted">Renk:</span>
+                    <strong>{{ item.variant.color|default:"Renk yok" }}</strong>
+                </div>
 
-  <p>Sepetin şu anda boş.</p>
+                <div class="mb-2">
+                    <span class="text-muted">Seçenek:</span>
+                    <strong>{{ item.variant.size|default:"Seçenek yok" }}</strong>
+                </div>
 
-  <a href="{% url 'home' %}" class="btn btn-dark"> Alışverişe Devam Et </a>
+                <div class="mb-2">
+                    <span class="text-muted">Birim Fiyat:</span>
+                    <strong>{{ item.variant.product.price }} TL</strong>
+                </div>
 
-  {% endif %}
+                <div class="mb-4">
+                    <span class="text-muted">Ara Toplam:</span>
+                    <strong class="text-info">
+                        {{ item.subtotal }} TL
+                    </strong>
+                </div>
+
+                <div class="d-flex align-items-center gap-2 mb-4">
+
+                    <form method="post" action="{% url 'cart:decrease_quantity' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-info btn-sm">
+                            -
+                        </button>
+                    </form>
+
+                    <span class="fw-bold fs-5">
+                        {{ item.quantity }}
+                    </span>
+
+                    <form method="post" action="{% url 'cart:increase_quantity' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-info btn-sm">
+                            +
+                        </button>
+                    </form>
+
+                </div>
+
+                <form method="post" action="{% url 'cart:remove_from_cart' item.id %}">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger w-100">
+                        Sepetten Çıkar
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <div class="card shadow-sm border-0 mt-5">
+
+            <div class="card-body text-center">
+
+                <h3 class="fw-bold mb-3">
+                    Toplam: {{ cart_total }} TL
+                </h3>
+
+                <a href="{% url 'orders:checkout' %}"
+                   class="btn btn-info text-dark fw-semibold px-4">
+
+                    Alışverişi Tamamla
+
+                </a>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="text-center py-5">
+
+            <h3 class="fw-bold">
+                Sepetiniz Boş
+            </h3>
+
+            <p class="text-muted mb-4">
+                Henüz sepetinize ürün eklemediniz.
+            </p>
+
+            <a href="{% url 'home' %}"
+               class="btn btn-info text-dark fw-semibold">
+
+                Alışverişe Başla
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
 </section>
 
 {% endblock %}
